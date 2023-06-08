@@ -1,9 +1,10 @@
-﻿using bytebank.Titular;
+using bytebank.Titular;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ByteBank.Exeções;
 
 namespace bytebank.Contas
 {
@@ -11,16 +12,18 @@ namespace bytebank.Contas
     {
         public static int TotalDeContasCriadas { get; private set; }
 
+        public static float taxaOperacao { get; private set; }
+
         private int numero_agencia;
         public int Numero_agencia
         {
             get { return this.numero_agencia; }
             private set {
-                    if (value > 0)
-                    {
-                        this.numero_agencia = value;
-                    }
+                if (value > 0)
+                {
+                    this.numero_agencia = value;
                 }
+            }
         }
 
        
@@ -44,7 +47,7 @@ namespace bytebank.Contas
             }
             else
             {
-                return false;
+                throw new SaldoInsuficienteExeption("Saldo insuficiente para a operação.");
             }
         }
 
@@ -83,6 +86,22 @@ namespace bytebank.Contas
         {
             this.Numero_agencia = numero_agencia;
             this.Conta = numero_conta;
+
+            if (numero_agencia <= 0)
+            {
+                throw new ArgumentException("Número de agência menor ou igual a zero!", nameof(numero_agencia));
+            }
+            /*
+            try
+            {
+                taxaOperacao = 30 / TotalDeContasCriadas;
+            }
+            catch (DivideByZeroException)
+            {
+                Console.WriteLine("Ocorreu um erro, não é possível fazer uma divisão por zero!");
+            }
+           */
+            
             TotalDeContasCriadas++;
         }
 
