@@ -1,4 +1,7 @@
-﻿using bytebank.Contas;
+using System.Threading.Channels;
+using bytebank.Contas;
+using ByteBank.Exeções;
+using ByteBank.Outro;
 using bytebank.Titular;
 
 //ContaCorrente contaDoAndre = new ContaCorrente();
@@ -80,12 +83,48 @@ using bytebank.Titular;
 //Console.WriteLine(conta4.GetSaldo());
 //Console.WriteLine(conta4.Numero_agencia);
 
-ContaCorrente conta5 = new ContaCorrente(283, "1234-X");
-Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
+//ContaCorrente conta5 = new ContaCorrente(283, "1234-X");
+//Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
+/*
+try
+{
+    ContaCorrente conta5 = new ContaCorrente(0, "1234-X");
+    conta5.Sacar(50);
+    Console.WriteLine(conta5.GetSaldo());
+    conta5.Sacar(150);
+    Console.WriteLine(conta5.GetSaldo());
+}
+catch (ArgumentException ex)
+{
+    Console.WriteLine("Parâmetro com erro: " + ex.ParamName);
+    Console.WriteLine("Não é possível criar uma conta com o número de agência maior ou igual a zero.");
+    Console.WriteLine(ex.StackTrace);
+    Console.WriteLine(ex.Message);
+}
+catch (SaldoInsuficienteExeption ex)
+{
+    Console.WriteLine("Operação negada, saldo insuficiente!");
+    Console.WriteLine(ex.Message);
+}
+*/
+//ContaCorrente conta6 = new ContaCorrente(284, "9874-Z");
+//Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
-ContaCorrente conta6 = new ContaCorrente(284, "9874-Z");
-Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
+//ContaCorrente conta7 = new ContaCorrente(285, "1111-Z");
+//Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
-ContaCorrente conta7 = new ContaCorrente(285, "1111-Z");
-Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
+LeitorDeArquivo leitor = new LeitorDeArquivo("contas.txt");
 
+try
+{
+    leitor.LerProximaLinha();
+    leitor.LerProximaLinha();
+}
+catch (IOException)
+{
+    Console.WriteLine("Leitura de arquivo interrompida.");
+}
+finally
+{
+    leitor.Fechar();
+}
